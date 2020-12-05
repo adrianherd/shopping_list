@@ -21,22 +21,25 @@ export class ListNav extends Component<ListNavProps, ListNavState> {
     }
 
     handleClick(cur: Tab): void {
-        if(cur != this.state.currentTab) {
+        if(cur !== this.state.currentTab) {
             this.setState({currentTab: cur});
-            this.props.onTabChange(cur)
+            this.props.onTabChange(cur);
         }
     }
 
     render() {
+        let pendingActive = this.state.currentTab === Tab.Pending ? "active" : "";
+        let crossedActive = this.state.currentTab === Tab.Crossed ? "active" : "";
+
         return (
             <ul className="nav nav-tabs nav-justified">
-                <li role="presentation" className="active">
+                <li role="presentation" className={ pendingActive }>
                     <a href="#" onClick={() => this.handleClick(Tab.Pending)}>Pending</a>
                 </li>
-                <li role="presentation">
+                <li role="presentation" className={ crossedActive }>
                     <a href="#" onClick={() => this.handleClick(Tab.Crossed)}>Crossed Off</a>
                 </li>
             </ul>
-        )
+        );
     }
 }
