@@ -1,17 +1,17 @@
 import React from "react";
-import { Item } from "./Item";
+import { Item as ListItem, ItemProps as Item } from "./Item";
 import { SearchBar } from "./SearchBar";
 
 type ItemListPanelState = {
     items: Item[];
     categories: string[];
     subtotal: number;
+    display: ListType;
 }
 
-type Item = {
-    text: string;
-    quantity?: number;
-    price?: number;
+enum ListType {
+    Pending,
+    CrossedOff
 }
 
 export class ItemListPanel extends React.Component<void> {
