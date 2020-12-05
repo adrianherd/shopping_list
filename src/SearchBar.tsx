@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { Component, ChangeEvent } from "react";
 
 type SearchBarProps = {
     text: string;
@@ -6,7 +6,7 @@ type SearchBarProps = {
     onTextCreate: () => void;
 }
 
-export class SearchBar extends React.Component<SearchBarProps> {
+export class SearchBar extends Component<SearchBarProps> {
     constructor(props: SearchBarProps) {
         super(props);
         this.handleChange = this.handleChange.bind(this);

@@ -1,17 +1,25 @@
+import react, {Component} from "react";
+
 type ItemProps = {
     text: string;
     quantity?: number;
     price?: number;
 }
 
-export function Item({text, quantity, price} : ItemProps) {
-    return (
-        <div>
-            <p>{text}</p>
-            <Quantity q={quantity} />
-            <Price p={price} />
-        </div>
-    )
+export class Item extends Component<ItemProps> {
+    constructor(props: ItemProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                <p>{this.props.text}</p>
+                <Quantity q={this.props.quantity} />
+                <Price p={this.props.price} />
+            </div>
+        )
+    }
 }
 
 function Quantity(props: {q?: number}) {
