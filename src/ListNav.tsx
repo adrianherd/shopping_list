@@ -1,31 +1,27 @@
 import React, { Component } from "react";
 
 type ListNavProps = {
-    onTabClick: () => void;
+    onTabClick: (t: Tab) => void;
 }
 
-export enum TabType {
+export enum Tab {
     Pending,
-    CrossedOff
+    Crossed
 }
 
-export class ListNav extends Component {
-    constructor(props) {
+export class ListNav extends Component<ListNavProps> {
+    constructor(props: ListNavProps) {
         super(props);
-    }
-
-    handleTabChange() {
-
     }
 
     render() {
         return (
             <ul className="nav nav-tabs nav-justified">
                 <li role="presentation" className="active">
-                    <a href="#">Pending</a>
+                    <a href="#" onClick={() => this.props.onTabClick(Tab.Pending)}>Pending</a>
                 </li>
                 <li role="presentation">
-                    <a href="#">Progress</a>
+                    <a href="#" onClick={() => this.props.onTabClick(Tab.Crossed)}>Crossed Off</a>
                 </li>
             </ul>
         )
