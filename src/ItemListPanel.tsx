@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Item as ListItem, ItemProps as Item } from "./Item";
 import { SearchBar } from "./SearchBar";
 
@@ -14,7 +14,7 @@ enum ListType {
     CrossedOff
 }
 
-export class ItemListPanel extends React.Component<void> {
+export class ItemListPanel extends Component<void> {
     constructor(props: void) {
         super(props);
     }
