@@ -1,4 +1,6 @@
 import React from "react";
+import { Item } from "./Item";
+import { SearchBar } from "./SearchBar";
 
 type ItemListPanelState = {
     items: Item[];
