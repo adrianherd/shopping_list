@@ -40,7 +40,7 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
     }
 
     render() {
-        let subtotalEl;
+        let subtotalEl = null;
         if(this.state.display == Tab.Pending){
             subtotalEl = (
                 <div>Subtotal: ${ this.state.subTotal }</div>
@@ -49,6 +49,7 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
         return (
             <div>
                 <ListNav onTabChange={ this.handleTabChange } />
+                { subtotalEl }
                 {this.props.pendingItems.map((item) => {
                     return <ListItem key={uuid()} text={item.text} price={item.price} quantity={item.quantity}/>
                 })}
