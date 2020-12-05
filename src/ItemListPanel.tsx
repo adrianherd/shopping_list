@@ -1,6 +1,15 @@
 import React from "react";
 
 type ItemListPanelState = {
+    items: Item[];
+    categories: string[];
+    subtotal: number;
+}
+
+type Item = {
+    text: string;
+    quantity?: number;
+    price?: number;
 }
 
 export class ItemListPanel extends React.Component<void> {
@@ -14,6 +23,10 @@ export class ItemListPanel extends React.Component<void> {
 
 
     render() {
-        return undefined;
+        return (
+            <div>
+
+            </div>
+        );
     }
 }

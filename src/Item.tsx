@@ -1,7 +1,7 @@
 type ItemProps = {
-    text: string,
-    quantity?: number,
-    price?: number,
+    text: string;
+    quantity?: number;
+    price?: number;
 }
 
 export function Item({text, quantity, price} : ItemProps) {
