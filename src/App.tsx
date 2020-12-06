@@ -28,11 +28,33 @@ class App extends Component<{}, AppState> {
 
     handleTextCreate(newText: string) {
         let pendingItems: Item[] = [...this.state.pendingItems, { id: uuid(), text: newText }];
+        pendingItems.sort(ascCompare);
         this.setState({ pendingItems });
     }
 
     handleItemToggle(id: string) {
-        if(this.state.)
+        let pendingItems: Item[] = [];
+        let crossedItems: Item[] = [];
+
+        this.state.pendingItems.forEach((item) => {
+           if(item.id !== id) {
+               pendingItems.push(item);
+           } else {
+               crossedItems.push(item);
+           }
+        });
+        this.state.crossedItems.forEach((item) => {
+            if(item.id !== id) {
+                crossedItems.push(item);
+            } else {
+                pendingItems.push(item);
+            }
+        });
+
+        pendingItems.sort(ascCompare)
+        crossedItems.sort(ascCompare)
+
+        this.setState({pendingItems, crossedItems});
     }
 
     render() {
@@ -43,10 +65,16 @@ class App extends Component<{}, AppState> {
                            onTextChange={this.handleTextChange}
                            onTextCreate={this.handleTextCreate} />
                 <ItemListPanel pendingItems={this.state.pendingItems}
-                               crossedItems={this.state.crossedItems} />
+                               crossedItems={this.state.crossedItems}
+                               toggleItemStatus={this.handleItemToggle}
+                />
             </div>
         );
     }
 }
+
+const ascCompare: (t1: Item, t2: Item) => number = (t1, t2) => {
+    return t1.text.localeCompare(t2.text)
+};
 
 export default App;

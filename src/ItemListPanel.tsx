@@ -47,19 +47,19 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
     render() {
         let subtotalEl = null;
         let items: Item[] = this.props.crossedItems;
-
         if(this.state.display === Tab.Pending){
             subtotalEl = (
                 <div>Subtotal: ${ this.state.subTotal }</div>
             )
             items = this.props.pendingItems;
         }
+
         return (
             <div className={"card"}>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 {items.map((item) => {
-                    return <ListItem key={item.id} data={item} toggleItemStatus={}/>
+                    return <ListItem key={item.id} data={item} toggleItemStatus={this.props.toggleItemStatus}/>
                 })}
             </div>
         );
