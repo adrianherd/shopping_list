@@ -13,7 +13,7 @@ export class Item extends Component<ItemProps> {
 
     render() {
         return (
-            <div>
+            <div className={"card"}>
                 <p>{this.props.text}</p>
                 <Quantity q={this.props.quantity} />
                 <Price p={this.props.price} />

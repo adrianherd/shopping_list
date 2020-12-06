@@ -47,7 +47,7 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
             )
         }
         return (
-            <div>
+            <div className={"card"}>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 {this.props.pendingItems.map((item) => {
