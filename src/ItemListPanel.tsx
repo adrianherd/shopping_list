@@ -33,14 +33,15 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
         this.setState({ display: newTab });
     }
 
-    summation() {
-        if(this.props.pendingItems.length > 0){
-            let sum = 0;
+    summation(): number {
+        if(this.props.pendingItems.length > 0) {
+            let sum: number = 0;
             this.props.pendingItems.forEach(item => {
                 sum += item?.price || 0;
             });
             return sum;
         }
+        return 0;
     }
 
     render() {
