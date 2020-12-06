@@ -8,10 +8,6 @@ export type ItemProps = {
 }
 
 export class Item extends Component<ItemProps> {
-    constructor(props: ItemProps) {
-        super(props);
-    }
-
     render() {
         return (
             <div className={"card"}>

@@ -36,7 +36,7 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
     summation() {
         if(this.props.pendingItems.length > 0){
             let sum = 0;
-            this.props.pendingItems.map(item => {
+            this.props.pendingItems.forEach(item => {
                 sum += item?.price || 0;
             });
             return sum;
@@ -45,7 +45,7 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
 
     render() {
         let subtotalEl = null;
-        if(this.state.display == Tab.Pending){
+        if(this.state.display === Tab.Pending){
             subtotalEl = (
                 <div>Subtotal: ${ this.state.subTotal }</div>
             )

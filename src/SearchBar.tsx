@@ -7,18 +7,12 @@ type SearchBarProps = {
 }
 
 export class SearchBar extends Component<SearchBarProps> {
-    constructor(props: SearchBarProps) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleCreate = this.handleCreate.bind(this);
-    }
-
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
         this.props.onTextChange(event.target.value);
     }
 
-    handleCreate(userText: string): void {
-        this.props.onTextCreate(userText);
+    handleCreate(): void {
+        this.props.onTextCreate(this.props.text);
     }
 
     render() {
@@ -26,7 +20,7 @@ export class SearchBar extends Component<SearchBarProps> {
         return (
             <div>
                 <input value={userText} onChange={this.handleChange}/>
-                <button onClick={() => this.handleCreate(userText)}>Create</button>
+                <button onClick={this.handleCreate}>Create</button>
             </div>
         )
     }
