@@ -33,11 +33,11 @@ export class ListNav extends Component<ListNavProps, ListNavState> {
 
         return (
             <ul className="nav nav-tabs nav-justified">
-                <li role="presentation" className={ pendingActive }>
-                    <a href="#" onClick={() => this.handleClick(Tab.Pending)}>Pending</a>
+                <li role="presentation" className={ `${pendingActive} nav-item` }>
+                    <a className="nav-link" href="#" onClick={() => this.handleClick(Tab.Pending)}>Pending</a>
                 </li>
-                <li role="presentation" className={ crossedActive }>
-                    <a href="#" onClick={() => this.handleClick(Tab.Crossed)}>Crossed Off</a>
+                <li role="presentation" className={ `${crossedActive} nav-item` }>
+                    <a className="nav-link" href="#" onClick={() => this.handleClick(Tab.Crossed)}>Crossed Off</a>
                 </li>
             </ul>
         );
