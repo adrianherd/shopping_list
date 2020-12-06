@@ -4,6 +4,7 @@ export type ItemProps = {
     text: string;
     quantity?: number;
     price?: number;
+    category?: string;
 }
 
 export class Item extends Component<ItemProps> {

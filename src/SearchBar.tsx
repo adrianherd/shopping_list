@@ -3,7 +3,7 @@ import React, { Component, ChangeEvent } from "react";
 type SearchBarProps = {
     text: string;
     onTextChange: (t: string) => void;
-    onTextCreate: () => void;
+    onTextCreate: (t: string) => void;
 }
 
 export class SearchBar extends Component<SearchBarProps> {
@@ -17,8 +17,8 @@ export class SearchBar extends Component<SearchBarProps> {
         this.props.onTextChange(event.target.value);
     }
 
-    handleCreate(): void {
-        this.props.onTextCreate();
+    handleCreate(userText: string): void {
+        this.props.onTextCreate(userText);
     }
 
     render() {
@@ -26,7 +26,7 @@ export class SearchBar extends Component<SearchBarProps> {
         return (
             <div>
                 <input value={userText} onChange={this.handleChange}/>
-                <button onClick={this.handleCreate}>Create</button>
+                <button onClick={() => this.handleCreate(userText)}>Create</button>
             </div>
         )
     }

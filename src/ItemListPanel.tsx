@@ -13,14 +13,19 @@ type ItemListPanelProps = {
 type ItemListPanelState = {
     display: Tab;
     subTotal?: number;
+    categories?: string[];
 }
 
 export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelState> {
     constructor(props: ItemListPanelProps) {
         super(props);
+        let categories: string[] = props.pendingItems
+            .map( item => item?.category || "")
+            .filter(category => category);
         this.state = {
             display: Tab.Pending,
             subTotal: this.summation(),
+            categories,
         }
         this.handleTabChange = this.handleTabChange.bind(this);
     }
@@ -51,7 +56,11 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 {this.props.pendingItems.map((item) => {
-                    return <ListItem key={uuid()} text={item.text} price={item.price} quantity={item.quantity}/>
+                    return <ListItem key={uuid()}
+                                     text={item.text}
+                                     price={item.price}
+                                     quantity={item.quantity}
+                                     category={item.category} />
                 })}
             </div>
         );
