@@ -3,20 +3,20 @@ import { ListItem } from "./ListItem";
 import { ListNav, Tab } from "./ListNav";
 import { Item } from "./Item"
 
-type ItemListPanelProps = {
+type ListPanelProps = {
     pendingItems: Item[];
     crossedItems: Item[];
     toggleItemStatus: (id: string) => void;
 }
 
-type ItemListPanelState = {
+type ListPanelState = {
     display: Tab;
     subTotal?: number;
     categories?: string[];
 }
 
-export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelState> {
-    constructor(props: ItemListPanelProps) {
+export class ListPanel extends Component<ListPanelProps, ListPanelState> {
+    constructor(props: ListPanelProps) {
         super(props);
         let categories: string[] = props.pendingItems
             .map( item => item?.category || "")

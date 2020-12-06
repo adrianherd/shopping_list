@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SearchBar } from "./SearchBar";
-import { ItemListPanel } from "./ItemListPanel";
+import { ListPanel } from "./ListPanel";
 import { Item } from "./Item";
 const { v4: uuid } = require('uuid');
 
@@ -65,9 +65,9 @@ class App extends Component<{}, AppState> {
                 <SearchBar text={this.state.userText}
                            onTextChange={this.handleTextChange}
                            onTextCreate={this.handleTextCreate} />
-                <ItemListPanel pendingItems={this.state.pendingItems}
-                               crossedItems={this.state.crossedItems}
-                               toggleItemStatus={this.handleItemToggle}
+                <ListPanel pendingItems={this.state.pendingItems}
+                           crossedItems={this.state.crossedItems}
+                           toggleItemStatus={this.handleItemToggle}
                 />
             </div>
         );
