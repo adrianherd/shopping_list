@@ -20,6 +20,7 @@ class App extends Component<{}, AppState> {
         }
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleTextCreate = this.handleTextCreate.bind(this);
+        this.handleItemToggle = this.handleItemToggle.bind(this);
     }
 
     handleTextChange(newText: string) {
