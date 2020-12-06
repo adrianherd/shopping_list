@@ -59,7 +59,7 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 {items.map((item) => {
-                    return <ListItem key={item.id} data={item} toggleItemStatus={this.props.toggleItemStatus}/>
+                    return <ListItem key={item.id} item={item} toggleItemStatus={this.props.toggleItemStatus}/>
                 })}
             </div>
         );

@@ -1,42 +1,107 @@
-import React, { Component } from "react";
+import React, {ChangeEvent, Component} from "react";
 import { Item } from "./Item"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
 
 type ItemProps = {
-    data: Item;
+    item: Item;
+    itemChange: (i: Item) => void;
     toggleItemStatus: (id: string) => void;
 }
+type ItemState = {
+    editable: boolean;
+}
 
-export class ListItem extends Component<ItemProps> {
+export class ListItem extends Component<ItemProps, ItemState> {
     constructor(props: ItemProps) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.handleToggleCheck = this.handleToggleCheck.bind(this);
+        this.handleItemUpdate = this.handleItemUpdate.bind(this);
+        this.state = { editable: false };
     }
 
     handleClick() {
-        this.props.toggleItemStatus(this.props.data.id);
+        if(!this.state.editable){
+            this.props.toggleItemStatus(this.props.item.id);
+        }
+    }
+
+    handleToggleCheck() {
+        this.setState({editable: !this.state.editable});
+    }
+
+    handleItemUpdate(event: ChangeEvent<HTMLInputElement>) {
+
     }
 
     render() {
         return (
-            <div className={"card"} onClick={this.handleClick}>
-                <p>{this.props.data.text}</p>
-                <Quantity q={this.props.data.quantity} />
-                <Price p={this.props.data.price} />
+            <div className={"card"}>
+                <div>
+                    <button onClick={this.handleToggleCheck}>
+                        {this.state.editable
+                            ? <FontAwesomeIcon icon={faCheckSquare}/>
+                            : <FontAwesomeIcon icon={faSquare}/>
+                        }
+                    </button>
+                </div>
+                <div onClick={this.handleClick}>
+                    <p>{this.props.item.text}</p>
+                    <Quantity q={this.props.item.quantity}
+                              editable={this.state.editable}
+                              onItemUpdate={this.handleItemUpdate} />
+                    <Price p={this.props.item.price}
+                           editable={this.state.editable}
+                           onItemUpdate={this.handleItemUpdate}/>
+                    <Category c={this.props.item.category}
+                              editable={this.state.editable}
+                              onItemUpdate={this.handleItemUpdate}/>
+                </div>
             </div>
+
         )
     }
 }
 
-function Quantity(props: {q?: number}) {
-    if(props.q){
-       return <p>Quantity: {props.q}</p>
+interface metadata {
+    editable: boolean;
+    onItemUpdate: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function Quantity(props: {q?: number} & metadata) {
+    if(props.editable){
+        return (
+            <p>Quantity:
+                <input id={"quantity"} value={props.q} onChange={props.onItemUpdate} />
+            </p>
+        )
+    } else if(props.q) {
+        return <p>Quantity: {props.q}</p>
     }
     return null;
 }
 
-function Price(props: {p?: number}) {
-    if(props.p){
+function Price(props: {p?: number} & metadata) {
+    if(props.editable){
+        return (
+            <p> Price:
+                <input id={"price"} value={props.p} onChange={props.onItemUpdate} />
+            </p>
+        )
+    } else if(props.p) {
         return <p>Price: {props.p}</p>
     }
-    return null
+    return null;
+}
+
+function Category(props: {c?: string} & metadata) {
+    if(props.editable){
+        return (
+            <p> Category:
+                <input id={"category"} value={props.c} onChange={props.onItemUpdate} />
+            </p>
+        )
+    }
+    return null;
 }
