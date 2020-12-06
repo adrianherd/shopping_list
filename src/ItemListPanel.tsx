@@ -7,7 +7,6 @@ const { v4: uuid } = require('uuid');
 type ItemListPanelProps = {
     pendingItems: Item[];
     crossedItems: Item[];
-    categories: string[];
 }
 
 type ItemListPanelState = {

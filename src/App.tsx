@@ -38,8 +38,7 @@ class App extends Component<{}, AppState> {
                            onTextChange={this.handleTextChange}
                            onTextCreate={this.handleTextCreate} />
                 <ItemListPanel pendingItems={this.state.pendingItems}
-                               crossedItems={this.state.crossedItems}
-                               categories={} />
+                               crossedItems={this.state.crossedItems} />
             </div>
         );
     }
