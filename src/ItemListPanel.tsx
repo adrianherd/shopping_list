@@ -1,12 +1,12 @@
-import React, {Component} from "react";
-import {Item as ListItem, ItemProps as Item} from "./Item";
-import {ListNav, Tab} from "./ListNav";
-
-const { v4: uuid } = require('uuid');
+import React, { Component } from "react";
+import { ListItem } from "./ListItem";
+import { ListNav, Tab } from "./ListNav";
+import { Item } from "./Item"
 
 type ItemListPanelProps = {
     pendingItems: Item[];
     crossedItems: Item[];
+    toggleItemStatus: (id: string) => void;
 }
 
 type ItemListPanelState = {
@@ -59,11 +59,7 @@ export class ItemListPanel extends Component<ItemListPanelProps, ItemListPanelSt
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 {items.map((item) => {
-                    return <ListItem key={uuid()}
-                                     text={item.text}
-                                     price={item.price}
-                                     quantity={item.quantity}
-                                     category={item.category} />
+                    return <ListItem key={item.id} data={item} toggleItemStatus={}/>
                 })}
             </div>
         );

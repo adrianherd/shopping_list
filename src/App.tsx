@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { SearchBar } from "./SearchBar";
 import { ItemListPanel } from "./ItemListPanel";
-import { ItemProps as Item } from "./Item";
+import { Item } from "./Item";
+const { v4: uuid } = require('uuid');
 
 type AppState = {
     userText: string;
@@ -26,8 +27,12 @@ class App extends Component<{}, AppState> {
     }
 
     handleTextCreate(newText: string) {
-        let pendingItems: Item[] = [...this.state.pendingItems, { text: newText }];
+        let pendingItems: Item[] = [...this.state.pendingItems, { id: uuid(), text: newText }];
         this.setState({ pendingItems });
+    }
+
+    handleItemToggle(id: string) {
+        if(this.state.)
     }
 
     render() {
