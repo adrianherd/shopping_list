@@ -7,7 +7,6 @@ type AppState = {
     userText: string;
     pendingItems: Item[];
     crossedItems: Item[];
-    categories: string[];
 }
 
 class App extends Component<{}, AppState> {
