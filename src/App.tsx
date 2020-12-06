@@ -18,6 +18,7 @@ class App extends Component<{}, AppState> {
             crossedItems: [],
         }
         this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleTextCreate = this.handleTextCreate.bind(this);
     }
 
     handleTextChange(newText: string) {
