@@ -25,9 +25,8 @@ class App extends Component<{}, AppState> {
     }
 
     handleTextCreate(newText: string) {
-        // how the heck do I stay immutable ?
-        // TODO: clone array? deep copy?
-        //this.setState()
+        let pendingItems: Item[] = [...this.state.pendingItems, { text: newText }];
+        this.setState({ pendingItems });
     }
 
     render() {
