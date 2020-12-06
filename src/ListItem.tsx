@@ -32,7 +32,11 @@ export class ListItem extends Component<ItemProps, ItemState> {
     }
 
     handleItemUpdate(event: ChangeEvent<HTMLInputElement>) {
+        let field: string = event.target.id;
+        let item: Item = {...this.props.item};
+        item[field] = event.target.value;
 
+        this.props.itemChange(item);
     }
 
     render() {
