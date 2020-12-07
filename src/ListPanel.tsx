@@ -103,7 +103,7 @@ type CategoryProps = {
 }
 function Category(props: CategoryProps) {
     return (
-        <Card>
+        <Card className={"mt-1"}>
             <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
                 {props.items[0].category}
             </Accordion.Toggle>
