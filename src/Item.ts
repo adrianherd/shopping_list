@@ -4,4 +4,4 @@ export type Item = {
     quantity?: number;
     price?: number;
     category?: string;
-} & { [key: string]: string | number; } ;
+};
