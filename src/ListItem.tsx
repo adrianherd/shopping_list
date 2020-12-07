@@ -64,12 +64,12 @@ export class ListItem extends Component<ItemProps, ItemState> {
      * @param event changeEvent emitted by one of the input elements
      */
     handleItemUpdate(event: ChangeEvent<HTMLInputElement>) {
-        let { name, value }: {name: string, value: string | number} = event.target;
+        let { name, value } = event.target;
         this.setState({
             ...this.state,
             [name]: value === ""
                 ? null
-                : name === "Category" ? value : +value
+                : name === "category" ? value : +value
         });
     }
 
