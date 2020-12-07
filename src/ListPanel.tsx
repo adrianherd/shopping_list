@@ -20,7 +20,7 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
     constructor(props: ListPanelProps) {
         super(props);
         let categories: string[] = props.pendingItems
-            .map( item => item?.category || "")
+            .map( item => item?.category ?? "")
             .filter(category => category);
         this.state = {
             display: Tab.Pending,
@@ -35,24 +35,21 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
     }
 
     summation(): number {
-        if(this.props.pendingItems.length > 0) {
-            let sum: number = 0;
-            this.props.pendingItems.forEach(item => {
-                sum += item?.price || 0;
-            });
-            return sum;
-        }
-        return 0;
+        let sum: number = 0;
+        this.props.pendingItems.forEach(item => {
+            const total = (item.price ?? 0) * (item.quantity ?? 1);
+            sum += total
+        });
+        return sum;
     }
 
     render() {
-        let subtotalEl = null;
         let items: Item[] = this.props.crossedItems;
+        let subtotalEl = null;
+        const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
         if(this.state.display === Tab.Pending){
-            subtotalEl = (
-                <div>Subtotal: ${ this.state.subTotal }</div>
-            )
             items = this.props.pendingItems;
+            subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
         }
 
         return (
