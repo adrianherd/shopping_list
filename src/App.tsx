@@ -31,7 +31,7 @@ class App extends Component<{}, AppState> {
     handleTextCreate(newText: string) {
         let pendingItems: Item[] = [...this.state.pendingItems, { id: uuid(), text: newText }];
         pendingItems.sort(ascCompare);
-        this.setState({ pendingItems });
+        this.setState({ pendingItems, userText: "" });
     }
 
     handleItemToggle(id: string) {
@@ -88,8 +88,8 @@ class App extends Component<{}, AppState> {
                 <SearchBar text={this.state.userText}
                            onTextChange={this.handleTextChange}
                            onTextCreate={this.handleTextCreate} />
-                <ListPanel pendingItems={this.state.pendingItems}
-                           crossedItems={this.state.crossedItems}
+                <ListPanel pendingItems={this.state.pendingItems.filter(item => item.text.includes(this.state.userText))}
+                           crossedItems={this.state.crossedItems.filter(item => item.text.includes(this.state.userText))}
                            toggleItemStatus={this.handleItemToggle}
                            itemUpdate={this.handleItemUpdate}
                 />
