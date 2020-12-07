@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ListItem } from "./ListItem";
 import { ListNav, Tab } from "./ListNav";
 import { Item } from "./Item"
+const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
     pendingItems: Item[];
@@ -12,20 +13,13 @@ type ListPanelProps = {
 
 type ListPanelState = {
     display: Tab;
-    subTotal?: number;
-    categories?: string[];
 }
 
 export class ListPanel extends Component<ListPanelProps, ListPanelState> {
     constructor(props: ListPanelProps) {
         super(props);
-        let categories: string[] = props.pendingItems
-            .map( item => item?.category ?? "")
-            .filter(category => category);
         this.state = {
             display: Tab.Pending,
-            subTotal: this.summation(),
-            categories,
         }
         this.handleTabChange = this.handleTabChange.bind(this);
     }
@@ -46,23 +40,28 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
     render() {
         let items: Item[] = this.props.crossedItems;
         let subtotalEl = null;
-        const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
+        let catListEl = null;
+
         if(this.state.display === Tab.Pending){
             items = this.props.pendingItems;
-            subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
-        }
 
-        let categories: Item[][] = [];
-        this.state.categories?.forEach(cat => {
-            // pendingItems should be sorted, therefore, category filter should respect sorting
-            categories.push(this.props.pendingItems.filter(item => item.category === cat));
-        })
-        categories.sort(ascCompare);
+            const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
+            subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
+
+            let categories: Item[][] = [];
+            let cats = items.map( item => item?.category ?? "").filter(category => category).sort();
+            // items should be sorted, therefore, category filter should respect sorting
+            cats.forEach(cat => categories.push(items.filter(item => item.category === cat)))
+            catListEl = <CategoryLists categories={categories}
+                                       toggleItemStatus={this.props.toggleItemStatus}
+                                       itemUpdate={this.props.itemUpdate} />
+        }
 
         return (
             <div className={"card"}>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
+                { catListEl }
                 {items.filter(item => !item.category).map((item) => {
                     return <ListItem key={item.id}
                                      item={item}
@@ -75,6 +74,58 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
     }
 }
 
-const ascCompare: (t1: Item[], t2: Item[]) => number = (t1, t2) => {
-    return t1[0].text.localeCompare(t2[0].text)
-};
+type CategoryListProps = {
+    categories: Item[][];
+    toggleItemStatus: (id: string) => void;
+    itemUpdate: (item: Item) => void;
+}
+
+function CategoryLists(props: CategoryListProps) {
+    return (
+    <div id={"category-groups-accordion"}>
+        {props.categories.map(items => {
+            return <Category key={uuid()}
+                             items={items}
+                             itemUpdate={props.itemUpdate}
+                             toggleItemStatus={props.toggleItemStatus} />
+        })}
+    </div>
+    )
+}
+
+type CategoryProps = {
+    items: Item[];
+    toggleItemStatus: (id: string) => void;
+    itemUpdate: (item: Item) => void;
+}
+function Category(props: CategoryProps) {
+    const catId = uuid();
+    return (
+        <div className="card">
+            <div className="card-header" id="headingOne">
+                <h5 className="mb-0">
+                    <button className="btn btn-link"
+                            data-toggle="collapse"
+                            data-target={catId}
+                            aria-expanded="true"
+                            aria-controls="collapseOne">
+                        {props.items[0].category}
+                    </button>
+                </h5>
+            </div>
+            <div id={catId}
+                 className="collapse show"
+                 aria-labelledby="headingOne"
+                 data-parent="#category-groups-accordion">
+                <div className="card-body">
+                    {props.items.map((item) => {
+                        return <ListItem key={item.id}
+                                         item={item}
+                                         toggleItemStatus={props.toggleItemStatus}
+                                         itemChange={props.itemUpdate} />
+                    })}
+                </div>
+            </div>
+        </div>
+    )
+}
