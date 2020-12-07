@@ -10,6 +10,9 @@ type AppState = {
     crossedItems: Item[];
 }
 
+/**
+ * This app is basic shopping list per the requirements of Tom Woodward's project file.
+ */
 class App extends Component<{}, AppState> {
     constructor(props: {}) {
         super(props);
@@ -24,16 +27,29 @@ class App extends Component<{}, AppState> {
         this.handleItemUpdate = this.handleItemUpdate.bind(this);
     }
 
+    /**
+     * Update state with latest user input
+     * @param newText the latest user input from search bar
+     */
     handleTextChange(newText: string) {
         this.setState({ userText: newText });
     }
 
+    /**
+     * Create new item using the string text and clear search bar text
+     * @param newText the search bar text when user hit create
+     */
     handleTextCreate(newText: string) {
         let pendingItems: Item[] = [...this.state.pendingItems, { id: uuid(), text: newText }];
         pendingItems.sort(ascCompare);
         this.setState({ pendingItems, userText: "" });
     }
 
+    /**
+     * Clicked item will toggle its current status and therefore switch tabs.
+     * Pending -> Cross or Crossed -> Pending
+     * @param id the id field of the item that was clicked
+     */
     handleItemToggle(id: string) {
         let pendingItems: Item[] = [];
         let crossedItems: Item[] = [];
@@ -59,6 +75,10 @@ class App extends Component<{}, AppState> {
         this.setState({ pendingItems, crossedItems });
     }
 
+    /**
+     * Update the appropriate state array with a new copy of the modified item.
+     * @param item the item whose metadata was updated
+     */
     handleItemUpdate(item: Item) {
         const items: Item[] = [item];
         const pending: boolean = this.state.pendingItems.findIndex(i => i.id === item.id) >= 0;
@@ -98,6 +118,11 @@ class App extends Component<{}, AppState> {
     }
 }
 
+/**
+ * An alphanumerical ascending order comparator for Items array by item text
+ * @param t1 first Item
+ * @param t2 second Item
+ */
 const ascCompare: (t1: Item, t2: Item) => number = (t1, t2) => {
     return t1.text.localeCompare(t2.text)
 };
