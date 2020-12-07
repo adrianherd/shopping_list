@@ -85,16 +85,16 @@ export class ListItem extends Component<ItemProps, ItemState> {
                     </div>
                     <div className={"flex-grow-1"} onClick={this.handleClick}>
                         <div className={"row mx-2"}>
-                            <div className={this.state.price != null ? "col-10" : "col-12"}>
-                                { this.state.quantity == null ? null :
+                            <div className={this.state.price ? "col-sm-8 col-m-10" : "col-12"}>
+                                {!this.state.quantity ? null :
                                 <span className={"font-weight-bold"}>
                                     ({this.state.quantity})&nbsp;
                                 </span>}
                                 {this.props.item.text}
                             </div>
-                            {this.state.price == null ? null :
-                                <div className={"col-2 text-center font-weight-bold"}>
-                                    ${this.state.price * (this.state.quantity ?? 1)}
+                            {!this.state.price ? null :
+                                <div className={"col-sm-4 col-md-2 text-center font-weight-bold"}>
+                                    ${(this.state.price ?? 0) * (this.state.quantity ?? 1)}
                                 </div>}
                         </div>
                     </div>
@@ -105,7 +105,7 @@ export class ListItem extends Component<ItemProps, ItemState> {
                         <Price p={this.state.price}
                                onItemUpdate={this.handleItemUpdate}/>
                     </div>
-                    <div className={"col-md-4 col-sm-12 mb-sm-2 "}>
+                    <div className={"col-md-4 col-sm-12 mb-sm-2"}>
                         <Quantity q={this.state.quantity}
                                   onItemUpdate={this.handleItemUpdate} />
                     </div>
@@ -141,10 +141,10 @@ function Quantity(props: {q?: number} & metadata) {
                    className="form-control"
                    value={props.q}
                    onChange={props.onItemUpdate}
-                   placeholder="0"
-                   aria-label="0"
+                   placeholder="1"
+                   aria-label="1"
                    aria-describedby="quantity-addon"
-                   type="text"/>
+                   type="number"/>
         </div>
     )
 }
@@ -165,7 +165,7 @@ function Price(props: {p?: number} & metadata) {
                    placeholder="0.00"
                    aria-label="0.00"
                    aria-describedby="price-addon"
-                   type="text"/>
+                   type="number"/>
         </div>
     )
 }
