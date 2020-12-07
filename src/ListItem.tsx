@@ -64,10 +64,12 @@ export class ListItem extends Component<ItemProps, ItemState> {
      * @param event changeEvent emitted by one of the input elements
      */
     handleItemUpdate(event: ChangeEvent<HTMLInputElement>) {
-        let { name, value } = event.target;
+        let { name, value }: {name: string, value: string | number} = event.target;
         this.setState({
             ...this.state,
-            [name]: value,
+            [name]: value === ""
+                ? null
+                : name === "Category" ? value : +value
         });
     }
 
@@ -85,15 +87,15 @@ export class ListItem extends Component<ItemProps, ItemState> {
                     </div>
                     <div className={"flex-grow-1"} onClick={this.handleClick}>
                         <div className={"row mx-2"}>
-                            <div className={this.state.price ? "col-sm-8 col-m-10" : "col-12"}>
-                                {!this.state.quantity ? null :
+                            <div className={this.state.price ? "col-9 col-m-10" : "col-12"}>
+                                {this.state.quantity == null ? null :
                                 <span className={"font-weight-bold"}>
                                     ({this.state.quantity})&nbsp;
                                 </span>}
                                 {this.props.item.text}
                             </div>
                             {!this.state.price ? null :
-                                <div className={"col-sm-4 col-md-2 text-center font-weight-bold"}>
+                                <div className={"col-3 col-md-2 text-center font-weight-bold"}>
                                     ${(this.state.price ?? 0) * (this.state.quantity ?? 1)}
                                 </div>}
                         </div>
