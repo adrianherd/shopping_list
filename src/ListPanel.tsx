@@ -6,7 +6,6 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab"
-const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
     pendingItems: Item[];
@@ -26,15 +25,14 @@ export class ListPanel extends Component<ListPanelProps> {
     }
 
     render() {
-        let subtotalEl = null;
         const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
-        subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
+        const subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
 
-        let categories: Item[][] = [];
-        let cats = this.props.pendingItems.map(item => item.category).filter(category => category).sort();
+        const categories: Item[][] = [];
+        const cats = this.props.pendingItems.map(item => item.category).filter(category => category).sort();
         // items should be sorted, therefore, category filter should respect sorting
         cats.forEach(cat => categories.push(this.props.pendingItems.filter(item => item.category === cat)));
-        let catListEl = <CategoryLists categories={categories}
+        const catListEl = <CategoryLists categories={categories}
                                    toggleItemStatus={this.props.toggleItemStatus}
                                    itemUpdate={this.props.itemUpdate} />
 
