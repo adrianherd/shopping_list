@@ -89,7 +89,7 @@ export class ListItem extends Component<ItemProps, ItemState> {
                                 {this.props.item.text}
                             </div>
                             {this.state.price == null ? null :
-                                <div className={"col-2 justify-content-center font-weight-bold"}>
+                                <div className={"col-2 text-center font-weight-bold"}>
                                     ${this.state.price * (this.state.quantity ?? 1)}
                                 </div>}
                         </div>
