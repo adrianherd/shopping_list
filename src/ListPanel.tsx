@@ -39,7 +39,7 @@ export class ListPanel extends Component<ListPanelProps> {
                                    itemUpdate={this.props.itemUpdate} />
 
         return (
-            <Tabs id={"ListTabs"} defaultActiveKey={"pending"} ulCassName={["nav-fill"]}>
+            <Tabs id={"ListTabs"} defaultActiveKey={"pending"} CassName={["nav-fill"]}>
                 <Tab title={"Pending"} eventKey={"pending"}>
                     <Card>
                         { subtotalEl }
