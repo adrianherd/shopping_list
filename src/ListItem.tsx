@@ -3,6 +3,8 @@ import { Item } from "./Item"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
 import Card from "react-bootstrap/Card";
+import { FormControl, InputGroup } from "react-bootstrap";
+import styled from "styled-components";
 
 type ItemProps = {
     item: Item;
@@ -102,12 +104,23 @@ interface metadata {
 function Quantity(props: {q?: number} & metadata) {
     if(props.editable){
         return (
-            <p>Quantity:
-                <input id={"quantity"}
-                       name={"quantity"}
+            <div className="input-group mb-3">
+                <StyledPrepend className="input-group-prepend">
+                    <span className="input-group-text w-100 justify-content-center"
+                          id="quantity-addon">
+                        Quantity
+                    </span>
+                </StyledPrepend>
+                <input id="quantity"
+                       name="quantity"
+                       className="form-control"
                        value={props.q}
-                       onChange={props.onItemUpdate} />
-            </p>
+                       onChange={props.onItemUpdate}
+                       placeholder="0"
+                       aria-label="0"
+                       aria-describedby="quantity-addon"
+                       type="text"/>
+            </div>
         )
     } else if(props.q) {
         return <p>Quantity: {props.q}</p>
@@ -115,15 +128,28 @@ function Quantity(props: {q?: number} & metadata) {
     return null;
 }
 
+const StyledPrepend = styled.span`
+  width: 100px;
+`
 function Price(props: {p?: number} & metadata) {
     if(props.editable){
         return (
-            <p> Price:
-                <input id={"price"}
-                       name={"price"}
+            <div className="input-group mb-3">
+                <StyledPrepend className="input-group-prepend">
+                    <span className="input-group-text w-100 justify-content-center" id="price-addon">
+                        Price $
+                    </span>
+                </StyledPrepend>
+                <input id="price"
+                       name="price"
+                       className="form-control"
                        value={props.p}
-                       onChange={props.onItemUpdate} />
-            </p>
+                       onChange={props.onItemUpdate}
+                       placeholder="0.00"
+                       aria-label="0.00"
+                       aria-describedby="price-addon"
+                       type="text"/>
+            </div>
         )
     } else if(props.p) {
         return <p>Price: {props.p}</p>
@@ -134,13 +160,25 @@ function Price(props: {p?: number} & metadata) {
 function Category(props: {c?: string} & metadata) {
     if(props.editable){
         return (
-            <p> Category:
-                <input id={"category"}
-                       name={"category"}
+            <div className="input-group mb-3">
+                <StyledPrepend className="input-group-prepend">
+                    <span className="input-group-text w-100 justify-content-center"
+                          id="category-addon">
+                        Category
+                    </span>
+                </StyledPrepend>
+                <input id="category"
+                       name="category"
+                       className="form-control"
                        value={props.c}
-                       onChange={props.onItemUpdate} />
-            </p>
+                       onChange={props.onItemUpdate}
+                       placeholder="Condiments, Dairy, etc."
+                       aria-label="Condiments, Dairy, etc."
+                       aria-describedby="category-addon"
+                       type="text"/>
+            </div>
         )
     }
     return null;
 }
+
