@@ -37,15 +37,22 @@ export class ListItem extends Component<ItemProps, ItemState> {
     }
 
     handleToggleCheck() {
+        if(this.state.editable){
+            let item: Item = {...this.props.item};
+            item.quantity = this.state.quantity;
+            item.category = this.state.category;
+            item.price = this.state.price;
+            this.props.itemChange(item);
+        }
         this.setState({editable: !this.state.editable});
     }
 
     handleItemUpdate(event: ChangeEvent<HTMLInputElement>) {
-        let field: string = event.target.id;
-        let item: Item = {...this.props.item};
-        item[field] = event.target.value;
-
-        this.props.itemChange(item);
+        let { name, value } = event.target;
+        this.setState({
+            ...this.state,
+            [name]: value,
+        });
     }
 
     render() {
@@ -61,13 +68,13 @@ export class ListItem extends Component<ItemProps, ItemState> {
                 </div>
                 <div onClick={this.handleClick}>
                     <p>{this.props.item.text}</p>
-                    <Quantity q={this.props.item.quantity}
+                    <Quantity q={this.state.quantity}
                               editable={this.state.editable}
                               onItemUpdate={this.handleItemUpdate} />
-                    <Price p={this.props.item.price}
+                    <Price p={this.state.price}
                            editable={this.state.editable}
                            onItemUpdate={this.handleItemUpdate}/>
-                    <Category c={this.props.item.category}
+                    <Category c={this.state.category}
                               editable={this.state.editable}
                               onItemUpdate={this.handleItemUpdate}/>
                 </div>
@@ -85,7 +92,10 @@ function Quantity(props: {q?: number} & metadata) {
     if(props.editable){
         return (
             <p>Quantity:
-                <input id={"quantity"} value={props.q} onChange={props.onItemUpdate} />
+                <input id={"quantity"}
+                       name={"quantity"}
+                       value={props.q}
+                       onChange={props.onItemUpdate} />
             </p>
         )
     } else if(props.q) {
@@ -98,7 +108,10 @@ function Price(props: {p?: number} & metadata) {
     if(props.editable){
         return (
             <p> Price:
-                <input id={"price"} value={props.p} onChange={props.onItemUpdate} />
+                <input id={"price"}
+                       name={"price"}
+                       value={props.p}
+                       onChange={props.onItemUpdate} />
             </p>
         )
     } else if(props.p) {
@@ -111,7 +124,10 @@ function Category(props: {c?: string} & metadata) {
     if(props.editable){
         return (
             <p> Category:
-                <input id={"category"} value={props.c} onChange={props.onItemUpdate} />
+                <input id={"category"}
+                       name={"category"}
+                       value={props.c}
+                       onChange={props.onItemUpdate} />
             </p>
         )
     }

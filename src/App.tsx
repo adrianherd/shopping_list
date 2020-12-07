@@ -69,7 +69,7 @@ class App extends Component<{}, AppState> {
                 }
             });
             items.sort(ascCompare);
-            this.setState({ pendingItems: items })
+            this.setState(prev => ({ pendingItems: items }))
         } else {
             this.state.crossedItems.forEach(i => {
                 if(i.id !== item.id){
@@ -77,7 +77,7 @@ class App extends Component<{}, AppState> {
                 }
             });
             items.sort(ascCompare);
-            this.setState({ crossedItems: items })
+            this.setState(prev => ({ crossedItems: items }));
         }
     }
 

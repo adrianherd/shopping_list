@@ -61,18 +61,18 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
         }
 
         return (
-            <div className={"card"}>
+            <Card>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 { catListEl }
-                {items.filter(item => !item.category).map((item) => {
+                {items.filter(item => !item.category || this.state.display === Tab.Crossed).map((item) => {
                     return <ListItem key={item.id}
                                      item={item}
                                      toggleItemStatus={this.props.toggleItemStatus}
                                      itemChange={this.props.itemUpdate}
                     />
                 })}
-            </div>
+            </Card>
         );
     }
 }
@@ -87,7 +87,7 @@ function CategoryLists(props: CategoryListProps) {
     return (
     <Accordion defaultActiveKey="0">
         {props.categories.map(items => {
-            return <Category key={uuid()}
+            return <Category
                              items={items}
                              itemUpdate={props.itemUpdate}
                              toggleItemStatus={props.toggleItemStatus} />
