@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { ListItem } from "./ListItem";
-import { ListNav, Tab } from "./ListNav";
 import { Item } from "./Item"
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab"
 const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
@@ -14,23 +15,7 @@ type ListPanelProps = {
     itemUpdate: (item: Item) => void;
 }
 
-type ListPanelState = {
-    display: Tab;
-}
-
-export class ListPanel extends Component<ListPanelProps, ListPanelState> {
-    constructor(props: ListPanelProps) {
-        super(props);
-        this.state = {
-            display: Tab.Pending,
-        }
-        this.handleTabChange = this.handleTabChange.bind(this);
-    }
-
-    handleTabChange(newTab: Tab) {
-        this.setState({ display: newTab });
-    }
-
+export class ListPanel extends Component<ListPanelProps> {
     summation(): number {
         let sum: number = 0;
         this.props.pendingItems.forEach(item => {
@@ -41,38 +26,45 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
     }
 
     render() {
-        let items: Item[] = this.props.crossedItems;
         let subtotalEl = null;
-        let catListEl = null;
+        const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
+        subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
 
-        if(this.state.display === Tab.Pending){
-            items = this.props.pendingItems;
-
-            const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
-            subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
-
-            let categories: Item[][] = [];
-            let cats = items.map( item => item?.category ?? "").filter(category => category).sort();
-            // items should be sorted, therefore, category filter should respect sorting
-            cats.forEach(cat => categories.push(items.filter(item => item.category === cat)))
-            catListEl = <CategoryLists categories={categories}
-                                       toggleItemStatus={this.props.toggleItemStatus}
-                                       itemUpdate={this.props.itemUpdate} />
-        }
+        let categories: Item[][] = [];
+        let cats = this.props.pendingItems.map(item => item.category).filter(category => category).sort();
+        // items should be sorted, therefore, category filter should respect sorting
+        cats.forEach(cat => categories.push(this.props.pendingItems.filter(item => item.category === cat)));
+        let catListEl = <CategoryLists categories={categories}
+                                   toggleItemStatus={this.props.toggleItemStatus}
+                                   itemUpdate={this.props.itemUpdate} />
 
         return (
-            <Card>
-                <ListNav onTabChange={ this.handleTabChange } />
-                { subtotalEl }
-                { catListEl }
-                {items.filter(item => !item.category || this.state.display === Tab.Crossed).map((item) => {
-                    return <ListItem key={item.id}
-                                     item={item}
-                                     toggleItemStatus={this.props.toggleItemStatus}
-                                     itemChange={this.props.itemUpdate}
-                    />
-                })}
-            </Card>
+            <Tabs id={"ListTabs"} defaultActiveKey={"pending"} ulCassName={["nav-fill"]}>
+                <Tab title={"Pending"} eventKey={"pending"}>
+                    <Card>
+                        { subtotalEl }
+                        { catListEl }
+                        {this.props.pendingItems.filter(item => !item.category).map((item) => {
+                            return <ListItem key={item.id}
+                                             item={item}
+                                             toggleItemStatus={this.props.toggleItemStatus}
+                                             itemChange={this.props.itemUpdate}
+                            />
+                        })}
+                    </Card>
+                </Tab>
+                <Tab title={"Crossed Off"} eventKey={"crossed"} >
+                    <Card>
+                        {this.props.crossedItems.map((item) => {
+                            return <ListItem key={item.id}
+                                             item={item}
+                                             toggleItemStatus={this.props.toggleItemStatus}
+                                             itemChange={this.props.itemUpdate}
+                            />
+                        })}
+                    </Card>
+                </Tab>
+            </Tabs>
         );
     }
 }
