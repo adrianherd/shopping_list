@@ -64,7 +64,7 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
             <div className={"card"}>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
-                { catListEl }F
+                { catListEl }
                 {items.filter(item => !item.category).map((item) => {
                     return <ListItem key={item.id}
                                      item={item}
