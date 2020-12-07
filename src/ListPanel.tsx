@@ -52,11 +52,18 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
             subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
         }
 
+        let categories: Item[][] = [];
+        this.state.categories?.forEach(cat => {
+            // pendingItems should be sorted, therefore, category filter should respect sorting
+            categories.push(this.props.pendingItems.filter(item => item.category === cat));
+        })
+        categories.sort(ascCompare);
+
         return (
             <div className={"card"}>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
-                {items.map((item) => {
+                {items.filter(item => !item.category).map((item) => {
                     return <ListItem key={item.id}
                                      item={item}
                                      toggleItemStatus={this.props.toggleItemStatus}
@@ -67,3 +74,7 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
         );
     }
 }
+
+const ascCompare: (t1: Item[], t2: Item[]) => number = (t1, t2) => {
+    return t1[0].text.localeCompare(t2[0].text)
+};
