@@ -28,7 +28,12 @@ export class ListPanel extends Component<ListPanelProps> {
         const subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
 
         const categories: Item[][] = [];
-        const cats = this.props.pendingItems.map(item => item.category).filter(category => category).sort();
+        // create a SET (unique vals) of strings for categories
+        const cats = this.props.pendingItems
+            .map(item => item.category)
+            .filter(category => category)
+            .filter((cat, index, self) => self.indexOf(cat) === index)
+            .sort();
         // items should be sorted, therefore, category filter should respect sorting
         cats.forEach(cat => categories.push(this.props.pendingItems.filter(item => item.category === cat)));
         const catListEl = <CategoryLists categories={categories}
