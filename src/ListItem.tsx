@@ -73,9 +73,9 @@ export class ListItem extends Component<ItemProps, ItemState> {
 
     render() {
         return (
-            <Card>
-                <div className={"d-flex justify-content-start my-2"}>
-                    <div className={"d-flex align-self-start mx-1"}>
+            <Card className={"mx-1 my-2"}>
+                <div className={"d-flex justify-content-start my-2 mx-1"}>
+                    <div className={"d-flex align-self-start"}>
                         <button onClick={this.handleToggleCheck}>
                             {this.state.editable
                                 ? <FontAwesomeIcon icon={faCheckSquare}/>
@@ -100,21 +100,20 @@ export class ListItem extends Component<ItemProps, ItemState> {
                     </div>
                 </div>
                 {!this.state.editable ? null :
-                <div className={"row mx-3"}>
-                    <div className={"col-md-4 col-sm-12"}>
+                <div className={"row mx-1 mb-2 mt-1"}>
+                    <div className={"col-md-4 col-sm-12 pl-md-0 mb-sm-2"}>
                         <Price p={this.state.price}
                                onItemUpdate={this.handleItemUpdate}/>
                     </div>
-                    <div className={"col-md-4 col-sm-12"}>
+                    <div className={"col-md-4 col-sm-12 mb-sm-2 "}>
                         <Quantity q={this.state.quantity}
                                   onItemUpdate={this.handleItemUpdate} />
                     </div>
-                    <div className={"col-md-4 col-sm-12"}>
+                    <div className={"col-md-4 col-sm-12 pr-md-0 mb-sm-2"}>
                         <Category c={this.state.category}
                                   onItemUpdate={this.handleItemUpdate}/>
                     </div>
                 </div>}
-
             </Card>
         )
     }
@@ -130,7 +129,7 @@ const StyledPrepend = styled.div`
 
 function Quantity(props: {q?: number} & metadata) {
     return (
-        <div className="input-group mb-3">
+        <div className="input-group">
             <StyledPrepend className="input-group-prepend">
                 <span className="input-group-text w-100 justify-content-center"
                       id="quantity-addon">
@@ -152,7 +151,7 @@ function Quantity(props: {q?: number} & metadata) {
 
 function Price(props: {p?: number} & metadata) {
     return (
-        <div className="input-group mb-3">
+        <div className="input-group">
             <StyledPrepend className="input-group-prepend">
                 <span className="input-group-text w-100 justify-content-center" id="price-addon">
                     Price $
@@ -173,7 +172,7 @@ function Price(props: {p?: number} & metadata) {
 
 function Category(props: {c?: string} & metadata) {
     return (
-        <div className="input-group mb-3">
+        <div className="input-group">
             <StyledPrepend className="input-group-prepend">
                 <span className="input-group-text w-100 justify-content-center"
                       id="category-addon">
