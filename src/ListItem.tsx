@@ -103,15 +103,15 @@ export class ListItem extends Component<ItemProps, ItemState> {
                 </div>
                 {!this.state.editable ? null :
                 <div className={"row mx-1 mb-2 mt-1"}>
-                    <div className={"col-md-4 col-sm-12 pl-md-0 mb-sm-2"}>
+                    <div className={"col-md-4 col-sm-12 pl-md-0 mb-sm-2 mb-xs-2"}>
                         <Price p={this.state.price}
                                onItemUpdate={this.handleItemUpdate}/>
                     </div>
-                    <div className={"col-md-4 col-sm-12 mb-sm-2"}>
+                    <div className={"col-md-4 col-sm-12 mb-sm-2 mb-xs-2"}>
                         <Quantity q={this.state.quantity}
                                   onItemUpdate={this.handleItemUpdate} />
                     </div>
-                    <div className={"col-md-4 col-sm-12 pr-md-0 mb-sm-2"}>
+                    <div className={"col-md-4 col-sm-12 pr-md-0 mb-sm-2 mb-xs-2"}>
                         <Category c={this.state.category}
                                   onItemUpdate={this.handleItemUpdate}/>
                     </div>
