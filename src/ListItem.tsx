@@ -11,7 +11,10 @@ type ItemProps = {
 }
 type ItemState = {
     editable: boolean;
-}
+    price?: number;
+    quantity?: number;
+    category?: string;
+};
 
 export class ListItem extends Component<ItemProps, ItemState> {
     constructor(props: ItemProps) {
@@ -19,7 +22,12 @@ export class ListItem extends Component<ItemProps, ItemState> {
         this.handleClick = this.handleClick.bind(this);
         this.handleToggleCheck = this.handleToggleCheck.bind(this);
         this.handleItemUpdate = this.handleItemUpdate.bind(this);
-        this.state = { editable: false };
+        this.state = {
+            editable: false,
+            price: props.item.price,
+            quantity: props.item.quantity,
+            category: props.item.category,
+        };
     }
 
     handleClick() {
