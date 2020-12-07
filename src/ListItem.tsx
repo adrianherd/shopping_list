@@ -2,6 +2,7 @@ import React, {ChangeEvent, Component} from "react";
 import { Item } from "./Item"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
+import Card from "react-bootstrap/Card";
 
 type ItemProps = {
     item: Item;
@@ -41,7 +42,7 @@ export class ListItem extends Component<ItemProps, ItemState> {
 
     render() {
         return (
-            <div className={"card"}>
+            <Card>
                 <div>
                     <button onClick={this.handleToggleCheck}>
                         {this.state.editable
@@ -62,8 +63,7 @@ export class ListItem extends Component<ItemProps, ItemState> {
                               editable={this.state.editable}
                               onItemUpdate={this.handleItemUpdate}/>
                 </div>
-            </div>
-
+            </Card>
         )
     }
 }

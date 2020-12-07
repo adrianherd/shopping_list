@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { ListItem } from "./ListItem";
 import { ListNav, Tab } from "./ListNav";
 import { Item } from "./Item"
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
@@ -61,7 +64,7 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
             <div className={"card"}>
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
-                { catListEl }
+                { catListEl }F
                 {items.filter(item => !item.category).map((item) => {
                     return <ListItem key={item.id}
                                      item={item}
@@ -82,14 +85,14 @@ type CategoryListProps = {
 
 function CategoryLists(props: CategoryListProps) {
     return (
-    <div id={"category-groups-accordion"}>
+    <Accordion defaultActiveKey="0">
         {props.categories.map(items => {
             return <Category key={uuid()}
                              items={items}
                              itemUpdate={props.itemUpdate}
                              toggleItemStatus={props.toggleItemStatus} />
         })}
-    </div>
+    </Accordion>
     )
 }
 
@@ -99,33 +102,23 @@ type CategoryProps = {
     itemUpdate: (item: Item) => void;
 }
 function Category(props: CategoryProps) {
-    const catId = uuid();
     return (
-        <div className="card">
-            <div className="card-header" id={`${catId}-header`}>
-                <h5 className="mb-0">
-                    <button className="btn btn-link"
-                            data-toggle="collapse"
-                            data-target={`${catId}-body`}
-                            aria-expanded="true"
-                            aria-controls={`${catId}-body`}>
-                        {props.items[0].category}
-                    </button>
-                </h5>
-            </div>
-            <div id={`${catId}-body`}
-                 className="collapse show"
-                 aria-labelledby={`${catId}-header`}
-                 data-parent="#category-groups-accordion">
-                <div className="card-body">
+        <Card>
+            <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                    {props.items[0].category}
+                </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey="0">
+                <Card.Body>
                     {props.items.map((item) => {
                         return <ListItem key={item.id}
                                          item={item}
                                          toggleItemStatus={props.toggleItemStatus}
                                          itemChange={props.itemUpdate} />
                     })}
-                </div>
-            </div>
-        </div>
+                </Card.Body>
+            </Accordion.Collapse>
+        </Card>
     )
 }
