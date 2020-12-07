@@ -21,6 +21,7 @@ class App extends Component<{}, AppState> {
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleTextCreate = this.handleTextCreate.bind(this);
         this.handleItemToggle = this.handleItemToggle.bind(this);
+        this.handleItemUpdate = this.handleItemUpdate.bind(this);
     }
 
     handleTextChange(newText: string) {
@@ -55,7 +56,29 @@ class App extends Component<{}, AppState> {
         pendingItems.sort(ascCompare)
         crossedItems.sort(ascCompare)
 
-        this.setState({pendingItems, crossedItems});
+        this.setState({ pendingItems, crossedItems });
+    }
+
+    handleItemUpdate(item: Item) {
+        const items: Item[] = [item];
+        const pending: boolean = this.state.pendingItems.findIndex(i => i.id === item.id) >= 0;
+        if(pending) {
+            this.state.pendingItems.forEach(i => {
+                if(i.id !== item.id){
+                    items.push(item);
+                }
+            });
+            items.sort(ascCompare);
+            this.setState({ pendingItems: items })
+        } else {
+            this.state.crossedItems.forEach(i => {
+                if(i.id !== item.id){
+                    items.push(item);
+                }
+            });
+            items.sort(ascCompare);
+            this.setState({ crossedItems: items })
+        }
     }
 
     render() {
@@ -68,6 +91,7 @@ class App extends Component<{}, AppState> {
                 <ListPanel pendingItems={this.state.pendingItems}
                            crossedItems={this.state.crossedItems}
                            toggleItemStatus={this.handleItemToggle}
+                           itemUpdate={this.handleItemUpdate}
                 />
             </div>
         );

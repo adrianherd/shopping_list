@@ -7,6 +7,7 @@ type ListPanelProps = {
     pendingItems: Item[];
     crossedItems: Item[];
     toggleItemStatus: (id: string) => void;
+    itemUpdate: (item: Item) => void;
 }
 
 type ListPanelState = {
@@ -59,7 +60,11 @@ export class ListPanel extends Component<ListPanelProps, ListPanelState> {
                 <ListNav onTabChange={ this.handleTabChange } />
                 { subtotalEl }
                 {items.map((item) => {
-                    return <ListItem key={item.id} item={item} toggleItemStatus={this.props.toggleItemStatus}/>
+                    return <ListItem key={item.id}
+                                     item={item}
+                                     toggleItemStatus={this.props.toggleItemStatus}
+                                     itemChange={this.props.itemUpdate}
+                    />
                 })}
             </div>
         );
