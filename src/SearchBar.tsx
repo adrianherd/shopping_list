@@ -13,10 +13,17 @@ export class SearchBar extends Component<SearchBarProps> {
         this.handleCreate = this.handleCreate.bind(this);
     }
 
+    /**
+     * Notify parent of new user input
+     * @param event changeEvent emitted by search bar
+     */
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
         this.props.onTextChange(event.target?.value);
     }
 
+    /**
+     * Notify parent of intent to create new item using text currently in search bar
+     */
     handleCreate(): void {
         this.props.onTextCreate(this.props.text);
     }

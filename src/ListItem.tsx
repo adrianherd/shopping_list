@@ -30,12 +30,19 @@ export class ListItem extends Component<ItemProps, ItemState> {
         };
     }
 
+    /**
+     * Sending item to "other" array status unless in edit mode.
+     */
     handleClick() {
         if(!this.state.editable){
             this.props.toggleItemStatus(this.props.item.id);
         }
     }
 
+    /**
+     * Notify parent component if prop has finished editing and send the
+     * desired item. Toggle edit mode.
+     */
     handleToggleCheck() {
         if(this.state.editable){
             let item: Item = {...this.props.item};
@@ -47,6 +54,10 @@ export class ListItem extends Component<ItemProps, ItemState> {
         this.setState({editable: !this.state.editable});
     }
 
+    /**
+     * Update the state so that input from user works as expected
+     * @param event changeEvent emitted by one of the input elements
+     */
     handleItemUpdate(event: ChangeEvent<HTMLInputElement>) {
         let { name, value } = event.target;
         this.setState({

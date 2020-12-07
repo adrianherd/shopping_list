@@ -28,7 +28,8 @@ class App extends Component<{}, AppState> {
     }
 
     /**
-     * Update state with latest user input
+     * Update state with latest user input. Important to note that there is automatic filtering
+     * in the tabs using a substring match of the user text.
      * @param newText the latest user input from search bar
      */
     handleTextChange(newText: string) {

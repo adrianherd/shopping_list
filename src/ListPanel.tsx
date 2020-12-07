@@ -5,6 +5,7 @@ import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab"
+const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
     pendingItems: Item[];
@@ -13,7 +14,15 @@ type ListPanelProps = {
     itemUpdate: (item: Item) => void;
 }
 
+/**
+ * List panel is the host container for the different views (tabs) for items.
+ * Pending, Crossed Off tabs.
+ */
 export class ListPanel extends Component<ListPanelProps> {
+    /**
+     * The total price of all pending items. Important to note that quantity is
+     * multiplied with price in calculation!!!
+     */
     summation(): number {
         let sum: number = 0;
         this.props.pendingItems.forEach(item => {
@@ -27,6 +36,7 @@ export class ListPanel extends Component<ListPanelProps> {
         const showSubtotal: boolean = !!this.props.pendingItems.find(item => item.price != null)
         const subtotalEl = showSubtotal ? <div>Subtotal: ${ this.summation()}</div> : null;
 
+        // Each entry is a list of items per category found
         const categories: Item[][] = [];
         // create a SET (unique vals) of strings for categories
         const cats = this.props.pendingItems
@@ -77,7 +87,7 @@ function CategoryLists(props: CategoryListProps) {
     return (
     <Accordion defaultActiveKey="0">
         {props.categories.map(items => {
-            return <Category
+            return <Category key={uuid()}
                              items={items}
                              itemUpdate={props.itemUpdate}
                              toggleItemStatus={props.toggleItemStatus} />
