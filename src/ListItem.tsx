@@ -3,7 +3,6 @@ import { Item } from "./Item"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
 import Card from "react-bootstrap/Card";
-import { FormControl, InputGroup } from "react-bootstrap";
 import styled from "styled-components";
 
 type ItemProps = {
