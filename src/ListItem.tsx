@@ -75,7 +75,7 @@ export class ListItem extends Component<ItemProps, ItemState> {
         return (
             <Card>
                 <div className={"d-flex justify-content-start my-2"}>
-                    <div className={"d-flex align-self-start"}>
+                    <div className={"d-flex align-self-start mx-1"}>
                         <button onClick={this.handleToggleCheck}>
                             {this.state.editable
                                 ? <FontAwesomeIcon icon={faCheckSquare}/>
@@ -86,6 +86,10 @@ export class ListItem extends Component<ItemProps, ItemState> {
                     <div className={"flex-grow-1"} onClick={this.handleClick}>
                         <div className={"row mx-2"}>
                             <div className={this.state.price != null ? "col-10" : "col-12"}>
+                                { this.state.quantity == null ? null :
+                                <span className={"font-weight-bold"}>
+                                    ({this.state.quantity})&nbsp;
+                                </span>}
                                 {this.props.item.text}
                             </div>
                             {this.state.price == null ? null :
