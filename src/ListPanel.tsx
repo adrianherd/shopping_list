@@ -102,20 +102,20 @@ function Category(props: CategoryProps) {
     const catId = uuid();
     return (
         <div className="card">
-            <div className="card-header" id="headingOne">
+            <div className="card-header" id={`${catId}-header`}>
                 <h5 className="mb-0">
                     <button className="btn btn-link"
                             data-toggle="collapse"
-                            data-target={catId}
+                            data-target={`${catId}-body`}
                             aria-expanded="true"
-                            aria-controls="collapseOne">
+                            aria-controls={`${catId}-body`}>
                         {props.items[0].category}
                     </button>
                 </h5>
             </div>
-            <div id={catId}
+            <div id={`${catId}-body`}
                  className="collapse show"
-                 aria-labelledby="headingOne"
+                 aria-labelledby={`${catId}-header`}
                  data-parent="#category-groups-accordion">
                 <div className="card-body">
                     {props.items.map((item) => {
