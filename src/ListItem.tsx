@@ -96,10 +96,14 @@ export class ListItem extends Component<ItemProps, ItemState> {
     }
 }
 
+// Shared across below components
 interface metadata {
     editable: boolean;
     onItemUpdate: (e: ChangeEvent<HTMLInputElement>) => void;
 }
+const StyledPrepend = styled.div`
+  width: 100px;
+`
 
 function Quantity(props: {q?: number} & metadata) {
     if(props.editable){
@@ -128,9 +132,6 @@ function Quantity(props: {q?: number} & metadata) {
     return null;
 }
 
-const StyledPrepend = styled.span`
-  width: 100px;
-`
 function Price(props: {p?: number} & metadata) {
     if(props.editable){
         return (
@@ -181,4 +182,3 @@ function Category(props: {c?: string} & metadata) {
     }
     return null;
 }
-
