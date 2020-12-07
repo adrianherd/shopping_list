@@ -1,9 +1,14 @@
 import React, {ChangeEvent, Component} from "react";
 import { Item } from "./Item"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import Card from "react-bootstrap/Card";
 import styled from "styled-components";
+
+const StyledDiv = styled.div`
+  width: 100px;
+`
 
 type ItemProps = {
     item: Item;
@@ -16,7 +21,6 @@ type ItemState = {
     quantity?: number;
     category?: string;
 };
-
 export class ListItem extends Component<ItemProps, ItemState> {
     constructor(props: ItemProps) {
         super(props);
@@ -70,26 +74,43 @@ export class ListItem extends Component<ItemProps, ItemState> {
     render() {
         return (
             <Card>
-                <div>
-                    <button onClick={this.handleToggleCheck}>
-                        {this.state.editable
-                            ? <FontAwesomeIcon icon={faCheckSquare}/>
-                            : <FontAwesomeIcon icon={faSquare}/>
-                        }
-                    </button>
+                <div className={"d-flex justify-content-start my-2"}>
+                    <div className={"d-flex align-self-start"}>
+                        <button onClick={this.handleToggleCheck}>
+                            {this.state.editable
+                                ? <FontAwesomeIcon icon={faCheckSquare}/>
+                                : <FontAwesomeIcon icon={faSquare}/>
+                            }
+                        </button>
+                    </div>
+                    <div className={"flex-grow-1"} onClick={this.handleClick}>
+                        <div className={"row mx-2"}>
+                            <div className={this.state.price != null ? "col-10" : "col-12"}>
+                                {this.props.item.text}
+                            </div>
+                            {this.state.price == null ? null :
+                                <div className={"col-2 justify-content-center font-weight-bold"}>
+                                    ${this.state.price * (this.state.quantity ?? 1)}
+                                </div>}
+                        </div>
+                    </div>
                 </div>
-                <div onClick={this.handleClick}>
-                    <p>{this.props.item.text}</p>
-                    <Quantity q={this.state.quantity}
-                              editable={this.state.editable}
-                              onItemUpdate={this.handleItemUpdate} />
-                    <Price p={this.state.price}
-                           editable={this.state.editable}
-                           onItemUpdate={this.handleItemUpdate}/>
-                    <Category c={this.state.category}
-                              editable={this.state.editable}
-                              onItemUpdate={this.handleItemUpdate}/>
-                </div>
+                {!this.state.editable ? null :
+                <div className={"row mx-3"}>
+                    <div className={"col-md-4 col-sm-12"}>
+                        <Price p={this.state.price}
+                               onItemUpdate={this.handleItemUpdate}/>
+                    </div>
+                    <div className={"col-md-4 col-sm-12"}>
+                        <Quantity q={this.state.quantity}
+                                  onItemUpdate={this.handleItemUpdate} />
+                    </div>
+                    <div className={"col-md-4 col-sm-12"}>
+                        <Category c={this.state.category}
+                                  onItemUpdate={this.handleItemUpdate}/>
+                    </div>
+                </div>}
+
             </Card>
         )
     }
@@ -97,7 +118,6 @@ export class ListItem extends Component<ItemProps, ItemState> {
 
 // Shared across below components
 interface metadata {
-    editable: boolean;
     onItemUpdate: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 const StyledPrepend = styled.div`
@@ -105,79 +125,66 @@ const StyledPrepend = styled.div`
 `
 
 function Quantity(props: {q?: number} & metadata) {
-    if(props.editable){
-        return (
-            <div className="input-group mb-3">
-                <StyledPrepend className="input-group-prepend">
-                    <span className="input-group-text w-100 justify-content-center"
-                          id="quantity-addon">
-                        Quantity
-                    </span>
-                </StyledPrepend>
-                <input id="quantity"
-                       name="quantity"
-                       className="form-control"
-                       value={props.q}
-                       onChange={props.onItemUpdate}
-                       placeholder="0"
-                       aria-label="0"
-                       aria-describedby="quantity-addon"
-                       type="text"/>
-            </div>
-        )
-    } else if(props.q) {
-        return <p>Quantity: {props.q}</p>
-    }
-    return null;
+    return (
+        <div className="input-group mb-3">
+            <StyledPrepend className="input-group-prepend">
+                <span className="input-group-text w-100 justify-content-center"
+                      id="quantity-addon">
+                    Quantity
+                </span>
+            </StyledPrepend>
+            <input id="quantity"
+                   name="quantity"
+                   className="form-control"
+                   value={props.q}
+                   onChange={props.onItemUpdate}
+                   placeholder="0"
+                   aria-label="0"
+                   aria-describedby="quantity-addon"
+                   type="text"/>
+        </div>
+    )
 }
 
 function Price(props: {p?: number} & metadata) {
-    if(props.editable){
-        return (
-            <div className="input-group mb-3">
-                <StyledPrepend className="input-group-prepend">
-                    <span className="input-group-text w-100 justify-content-center" id="price-addon">
-                        Price $
-                    </span>
-                </StyledPrepend>
-                <input id="price"
-                       name="price"
-                       className="form-control"
-                       value={props.p}
-                       onChange={props.onItemUpdate}
-                       placeholder="0.00"
-                       aria-label="0.00"
-                       aria-describedby="price-addon"
-                       type="text"/>
-            </div>
-        )
-    } else if(props.p) {
-        return <p>Price: {props.p}</p>
-    }
-    return null;
+    return (
+        <div className="input-group mb-3">
+            <StyledPrepend className="input-group-prepend">
+                <span className="input-group-text w-100 justify-content-center" id="price-addon">
+                    Price $
+                </span>
+            </StyledPrepend>
+            <input id="price"
+                   name="price"
+                   className="form-control"
+                   value={props.p}
+                   onChange={props.onItemUpdate}
+                   placeholder="0.00"
+                   aria-label="0.00"
+                   aria-describedby="price-addon"
+                   type="text"/>
+        </div>
+    )
 }
 
 function Category(props: {c?: string} & metadata) {
-    if(props.editable){
-        return (
-            <div className="input-group mb-3">
-                <StyledPrepend className="input-group-prepend">
-                    <span className="input-group-text w-100 justify-content-center"
-                          id="category-addon">
-                        Category
-                    </span>
-                </StyledPrepend>
-                <input id="category"
-                       name="category"
-                       className="form-control"
-                       value={props.c}
-                       onChange={props.onItemUpdate}
-                       placeholder="Condiments, Dairy, etc."
-                       aria-label="Condiments, Dairy, etc."
-                       aria-describedby="category-addon"
-                       type="text"/>
-            </div>
-        )
-    }
-    return null;
+    return (
+        <div className="input-group mb-3">
+            <StyledPrepend className="input-group-prepend">
+                <span className="input-group-text w-100 justify-content-center"
+                      id="category-addon">
+                    Category
+                </span>
+            </StyledPrepend>
+            <input id="category"
+                   name="category"
+                   className="form-control"
+                   value={props.c}
+                   onChange={props.onItemUpdate}
+                   placeholder="Condiments"
+                   aria-label="Condiments"
+                   aria-describedby="category-addon"
+                   type="text"/>
+        </div>
+    );
 }
