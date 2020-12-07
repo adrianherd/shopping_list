@@ -3,7 +3,6 @@ import { ListItem } from "./ListItem";
 import { Item } from "./Item"
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab"
 
@@ -39,7 +38,6 @@ export class ListPanel extends Component<ListPanelProps> {
         return (
             <Tabs id={"ListTabs"} defaultActiveKey={"pending"} className={["nav-fill"]}>
                 <Tab title={"Pending"} eventKey={"pending"}>
-                    <Card>
                         { subtotalEl }
                         { catListEl }
                         {this.props.pendingItems.filter(item => !item.category).map((item) => {
@@ -49,18 +47,15 @@ export class ListPanel extends Component<ListPanelProps> {
                                              itemChange={this.props.itemUpdate}
                             />
                         })}
-                    </Card>
                 </Tab>
                 <Tab title={"Crossed Off"} eventKey={"crossed"} >
-                    <Card>
-                        {this.props.crossedItems.map((item) => {
-                            return <ListItem key={item.id}
-                                             item={item}
-                                             toggleItemStatus={this.props.toggleItemStatus}
-                                             itemChange={this.props.itemUpdate}
-                            />
-                        })}
-                    </Card>
+                    {this.props.crossedItems.map((item) => {
+                        return <ListItem key={item.id}
+                                         item={item}
+                                         toggleItemStatus={this.props.toggleItemStatus}
+                                         itemChange={this.props.itemUpdate}
+                        />
+                    })}
                 </Tab>
             </Tabs>
         );
@@ -94,11 +89,9 @@ type CategoryProps = {
 function Category(props: CategoryProps) {
     return (
         <Card>
-            <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                    {props.items[0].category}
-                </Accordion.Toggle>
-            </Card.Header>
+            <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                {props.items[0].category}
+            </Accordion.Toggle>
             <Accordion.Collapse eventKey="0">
                 <Card.Body>
                     {props.items.map((item) => {
