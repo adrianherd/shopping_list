@@ -50,6 +50,7 @@ export class ListPanel extends Component<ListPanelProps> {
         cats.forEach(cat => categories.push(this.props.pendingItems.filter(item => item.category === cat)));
 
         return (
+            <div className={"my-2"}>
             <Tabs id={"ListTabs"} defaultActiveKey={"pending"} className={["nav-fill"]}>
                 <Tab title={"Pending"} eventKey={"pending"}>
                         { subtotalEl }
@@ -77,6 +78,7 @@ export class ListPanel extends Component<ListPanelProps> {
                     })}
                 </Tab>
             </Tabs>
+            </div>
         );
     }
 }

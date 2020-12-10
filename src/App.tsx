@@ -105,15 +105,16 @@ class App extends Component<{}, AppState> {
     render() {
         return (
             <div className="App">
-                <h1>Shopping List</h1>
+                <div className={"text-center mt-2 mb-4"}>
+                    <h1>Shopping List</h1>
+                </div>
                 <SearchBar text={this.state.userText}
                            onTextChange={this.handleTextChange}
                            onTextCreate={this.handleTextCreate} />
                 <ListPanel pendingItems={this.state.pendingItems.filter(item => item.text.includes(this.state.userText))}
                            crossedItems={this.state.crossedItems.filter(item => item.text.includes(this.state.userText))}
                            toggleItemStatus={this.handleItemToggle}
-                           itemUpdate={this.handleItemUpdate}
-                />
+                           itemUpdate={this.handleItemUpdate} />
             </div>
         );
     }

@@ -31,7 +31,7 @@ export class SearchBar extends Component<SearchBarProps> {
     render() {
         const userText = this.props.text;
         return (
-            <div>
+            <div className={"d-flex justify-content-center my-2"}>
                 <input value={userText} onChange={this.handleChange}/>
                 <button onClick={this.handleCreate}>Create</button>
             </div>
