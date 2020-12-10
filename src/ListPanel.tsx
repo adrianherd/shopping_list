@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { ListItem } from "./ListItem";
 import { Item } from "./Item"
-import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab"
+import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusSquare, faMinusSquare } from '@fortawesome/free-regular-svg-icons'
-import {faCheckSquare} from "@fortawesome/free-solid-svg-icons";
-import {Collapse} from "react-bootstrap";
 const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
@@ -105,9 +103,14 @@ class Category extends Component<CategoryProps, CategoryState> {
     render(){
         return (
             <Card className={"mt-1"}>
-                <Card.Header onClick={this.onToggle}>
+                <Card.Header onClick={this.onToggle} className={"d-flex justify-content-between"}>
                     <div>
                         {this.props.items[0].category}
+                    </div>
+                    <div>
+                        {this.state.isOpen
+                        ? <FontAwesomeIcon icon={faMinusSquare}/>
+                        : <FontAwesomeIcon icon={faPlusSquare}/>}
                     </div>
                 </Card.Header>
                 <Collapse in={this.state.isOpen}>
