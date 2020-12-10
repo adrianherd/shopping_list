@@ -5,6 +5,10 @@ import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusSquare, faMinusSquare } from '@fortawesome/free-regular-svg-icons'
+import {faCheckSquare} from "@fortawesome/free-solid-svg-icons";
+import {Collapse} from "react-bootstrap";
 const { v4: uuid } = require('uuid');
 
 type ListPanelProps = {
@@ -46,15 +50,17 @@ export class ListPanel extends Component<ListPanelProps> {
             .sort();
         // items should be sorted, therefore, category filter should respect sorting
         cats.forEach(cat => categories.push(this.props.pendingItems.filter(item => item.category === cat)));
-        const catListEl = <CategoryLists categories={categories}
-                                   toggleItemStatus={this.props.toggleItemStatus}
-                                   itemUpdate={this.props.itemUpdate} />
 
         return (
             <Tabs id={"ListTabs"} defaultActiveKey={"pending"} className={["nav-fill"]}>
                 <Tab title={"Pending"} eventKey={"pending"}>
                         { subtotalEl }
-                        { catListEl }
+                        {categories.map(items => {
+                            return <Category key={uuid()}
+                                             items={items}
+                                             itemUpdate={this.props.itemUpdate}
+                                             toggleItemStatus={this.props.toggleItemStatus} />
+                        })}
                         {this.props.pendingItems.filter(item => !item.category).map((item) => {
                             return <ListItem key={item.id}
                                              item={item}
@@ -77,46 +83,47 @@ export class ListPanel extends Component<ListPanelProps> {
     }
 }
 
-type CategoryListProps = {
-    categories: Item[][];
-    toggleItemStatus: (id: string) => void;
-    itemUpdate: (item: Item) => void;
-}
-
-function CategoryLists(props: CategoryListProps) {
-    return (
-    <Accordion defaultActiveKey="0">
-        {props.categories.map(items => {
-            return <Category key={uuid()}
-                             items={items}
-                             itemUpdate={props.itemUpdate}
-                             toggleItemStatus={props.toggleItemStatus} />
-        })}
-    </Accordion>
-    )
-}
-
 type CategoryProps = {
     items: Item[];
     toggleItemStatus: (id: string) => void;
     itemUpdate: (item: Item) => void;
 }
-function Category(props: CategoryProps) {
-    return (
-        <Card className={"mt-1"}>
-            <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
-                {props.items[0].category}
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                    {props.items.map((item) => {
-                        return <ListItem key={item.id}
-                                         item={item}
-                                         toggleItemStatus={props.toggleItemStatus}
-                                         itemChange={props.itemUpdate} />
-                    })}
-                </Card.Body>
-            </Accordion.Collapse>
-        </Card>
-    )
+type CategoryState = {
+    isOpen: boolean;
+}
+class Category extends Component<CategoryProps, CategoryState> {
+    constructor(props: CategoryProps){
+        super(props)
+        this.state = { isOpen: true };
+        this.onToggle = this.onToggle.bind(this)
+    }
+
+    onToggle() {
+        this.setState({ isOpen: !this.state.isOpen });
+    }
+
+    render(){
+        return (
+            <Card className={"mt-1"}>
+                <Card.Header onClick={this.onToggle}>
+                    <div>
+                        {this.props.items[0].category}
+                    </div>
+                </Card.Header>
+                <Collapse in={this.state.isOpen}>
+                    {/* 1 child node with 0 padding and margin needed for smooth animation */}
+                    <div>
+                        <Card.Body>
+                            {this.props.items.map((item) => {
+                                return <ListItem key={item.id}
+                                                 item={item}
+                                                 toggleItemStatus={this.props.toggleItemStatus}
+                                                 itemChange={this.props.itemUpdate} />
+                            })}
+                        </Card.Body>
+                    </div>
+                </Collapse>
+            </Card>
+        )
+    }
 }
