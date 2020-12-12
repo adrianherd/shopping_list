@@ -1,11 +1,12 @@
 import React, { Component, ChangeEvent } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 type SearchBarProps = {
     text: string;
     onTextChange: (t: string) => void;
     onTextCreate: (t: string) => void;
 }
-
 export class SearchBar extends Component<SearchBarProps> {
     constructor(props: SearchBarProps) {
         super(props);
@@ -32,8 +33,14 @@ export class SearchBar extends Component<SearchBarProps> {
         const userText = this.props.text;
         return (
             <div className={"d-flex justify-content-center my-2"}>
-                <input value={userText} onChange={this.handleChange}/>
-                <button onClick={this.handleCreate}>Create</button>
+                <input value={userText}
+                       type={"text"}
+                       onChange={this.handleChange}
+                       placeholder={"Search..."} />
+                <button onClick={this.handleCreate} className={"btn btn-success ml-2"}>
+                    <FontAwesomeIcon icon={faPlus}/>&nbsp;
+                    Create
+                </button>
             </div>
         )
     }
