@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Live Site
-This app is currently deployed with Amazon Amplify at this [adrianhernandez.dev](https://adrianhernandez.dev).
+This app is currently deployed with Amazon Amplify at this [shopping.adrianhernandez.dev](https://shopping.adrianhernandez.dev).
 
 ## Available Scripts
 
